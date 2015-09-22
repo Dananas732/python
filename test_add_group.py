@@ -40,7 +40,6 @@ class test_add_group(unittest.TestCase):
         wd.find_element_by_name("submit").click()
         wd.find_element_by_link_text("group page").click()
         wd.find_element_by_xpath("//form[@class='header']//a[.='Logout']").click()
-        wd.add_cookie({"name": , "value":})
         self.assertTrue(success)
     
     def tearDown(self):
