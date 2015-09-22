@@ -1,1 +1,1 @@
-# python
+# python for trainnig
