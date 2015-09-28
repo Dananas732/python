@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from address import add_address
-from application import Application
+from model.address import add_address
+from pixture.application import Application
 
 @pytest.fixture
 def app(request):
