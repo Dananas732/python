@@ -41,3 +41,13 @@ class AddressHelper:
         wd = self.app.wd
         # return to groups page
         wd.find_element_by_link_text("home").click()
+
+    def delete_first_address(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        #select first address
+        wd.find_element_by_xpath("//form[@name='MainForm']/table[@id='maintable']//input[@id='1']").click()
+        #delete address
+        wd.find_element_by_css_selector("form[name='MainForm'] input[value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.return_to_home_page()

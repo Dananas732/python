@@ -12,12 +12,12 @@ class Application:
         self.wd.implicitly_wait(60)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
-        self.address = AddressHelper (self)
+        self.address = AddressHelper(self)
 
     def open_home_page(self):
         wd = self.wd
         # open home page
-        wd.get("http://localhost/addressbook/group.php")
+        wd.get("http://localhost/addressbook/")
 
     def destroy(self):
         self.wd.quit()
