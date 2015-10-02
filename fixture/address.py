@@ -11,6 +11,13 @@ class AddressHelper:
         self.app.open_home_page()
         # return to new address page
         wd.find_element_by_link_text("add new").click()
+        self.fill_address_form(add_address)
+        # submit address creation
+        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.return_to_home_page()
+
+    def fill_address_form(self, add_address):
+        wd = self.app.wd
         # fill address form
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -33,9 +40,6 @@ class AddressHelper:
         wd.find_element_by_name("address").click()
         wd.find_element_by_name("address").clear()
         wd.find_element_by_name("address").send_keys(add_address.address)
-        # submit address creation
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.return_to_home_page()
 
     def return_to_home_page(self):
         wd = self.app.wd
@@ -45,9 +49,21 @@ class AddressHelper:
     def delete_first_address(self):
         wd = self.app.wd
         self.app.open_home_page()
-        #select first address
-        wd.find_element_by_xpath("//form[@name='MainForm']/table[@id='maintable']//input[@id='1']").click()
+        self.select_first_address()
         #delete address
         wd.find_element_by_css_selector("form[name='MainForm'] input[value='Delete']").click()
         wd.switch_to_alert().accept()
+        self.return_to_home_page()
+
+    def select_first_address(self):
+        wd = self.app.wd
+        # select first address
+        wd.find_element_by_xpath("//form[@name='MainForm']/table[@id='maintable']//input[@name='selected[]']").click()
+
+    def modify(self, add_address):
+        wd = self.app.wd
+        self.app.open_home_page()
+        wd.find_element_by_xpath("//form[@name='MainForm']/table[@id='maintable']//img[@title='Edit']").click()
+        self.fill_address_form(add_address)
+        wd.find_element_by_xpath("//div[@id='content']//input[@value='Update']").click()
         self.return_to_home_page()
