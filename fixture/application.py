@@ -13,6 +13,7 @@ class Application:
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.address = AddressHelper(self)
+        self.open_home_page()
 
     def is_valid(self):
         try:

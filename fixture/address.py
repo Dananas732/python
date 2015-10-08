@@ -18,13 +18,13 @@ class AddressHelper:
 
     def fill_address_form(self, address):
         wd = self.app.wd
-        self.change_field_value("firstname", address.name)
-        self.change_field_value("middlename", address.header)
-        self.change_field_value("lastname", address.footer)
-        self.change_field_value("nickname", address.name)
-        self.change_field_value("title", address.header)
-        self.change_field_value("company", address.footer)
-        self.change_field_value("address", address.footer)
+        self.change_field_value("firstname", address.firstname)
+        self.change_field_value("middlename", address.middlename)
+        self.change_field_value("lastname", address.lastname)
+        self.change_field_value("nickname", address.nickname)
+        self.change_field_value("title", address.title)
+        self.change_field_value("company", address.company)
+        self.change_field_value("address", address.address)
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
@@ -59,3 +59,8 @@ class AddressHelper:
         self.fill_address_form(add_address)
         wd.find_element_by_xpath("//div[@id='content']//input[@value='Update']").click()
         self.return_to_home_page()
+
+    def count(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        return len(wd.find_elements_by_name("selected[]"))
