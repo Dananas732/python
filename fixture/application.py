@@ -9,7 +9,6 @@ class Application:
 
     def __init__(self):
         self.wd = WebDriver()
-        self.wd.implicitly_wait(5)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.address = AddressHelper(self)
@@ -24,8 +23,8 @@ class Application:
 
     def open_home_page(self):
         wd = self.wd
-        # open home page
-        wd.get("http://localhost/addressbook/")
+        if not (wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_css_selector("form[name='MainForm'] input[value='Delete']"))> 0):
+            wd.get("http://localhost/addressbook/")
 
     def destroy(self):
         self.wd.quit()
