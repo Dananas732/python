@@ -7,13 +7,26 @@ def check_for_group(app):
 
 def test_modify_group_name(app):
     check_for_group(app)
-    app.group.modify(Group(name="popopo"))
+    old_groups = app.group.get_group_list()
+    group = Group(name="popopo")
+    group.id = old_groups[0].id
+    app.group.modify(group)
+    new_groups = app.group.get_group_list()
+    assert len(old_groups) == len(new_groups)
+    old_groups[0] = group
+    assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
-def test_modify_group_header(app):
-    check_for_group(app)
-    app.group.modify(Group(header="pipipi"))
 
+#def test_modify_group_header(app):
+#    check_for_group(app)
+#    old_groups = app.group.get_group_list
+#    app.group.modify(Group(header="pipipi"))
+#    new_groups = app.group.get_group_list
+#    assert len(old_groups) == len(new_groups)
 
-def test_modify_group_footer(app):
-    check_for_group(app)
-    app.group.modify(Group(footer="papapa"))
+#def test_modify_group_footer(app):
+#    check_for_group(app)
+#    old_groups = app.group.get_group_list
+#    app.group.modify(Group(footer="papapa"))
+#    new_groups = app.group.get_group_list
+#    assert len(old_groups) == len(new_groups)
