@@ -1,4 +1,5 @@
 __author__ = 'e.lyzlov'
+from model.address import add_address
 
 class AddressHelper:
 
@@ -64,3 +65,14 @@ class AddressHelper:
         wd = self.app.wd
         self.app.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
+
+    def get_address_list(self):
+        wd = self.app.wd
+        self.app.open_home_page()
+        address = []
+        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+            firstname = element.find_element_by_xpath("./td[2]").text
+            lastname = element.find_element_by_xpath("./td[3]").text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            address.append(add_address(firstname=firstname, lastname=lastname, id=id))
+        return address
