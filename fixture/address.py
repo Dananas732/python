@@ -40,24 +40,26 @@ class AddressHelper:
         if not (wd.current_url.endswith("/addressbook") and len(wd.find_elements_by_css_selector("form[name='MainForm'] input[value='Delete']"))> 0):
             wd.find_element_by_link_text("home").click()
 
-    def delete_first_address(self):
+    def delete_address_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
-        self.select_first_address()
+        self.select_address_by_index(index)
         wd.find_element_by_css_selector("form[name='MainForm'] input[value='Delete']").click()
         wd.switch_to_alert().accept()
         self.return_to_home_page()
         self.address_cache = None
 
     def select_first_address(self):
-        wd = self.app.wd
-        # select first address
-        wd.find_element_by_xpath("//form[@name='MainForm']/table[@id='maintable']//input[@name='selected[]']").click()
+        self.select_address_by_index(0)
 
-    def modify(self, add_address):
+    def select_address_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_xpath("//form[@name='MainForm']/table[@id='maintable']//input[@name='selected[]']")[index].click()
+
+    def modify(self, index, add_address):
         wd = self.app.wd
         self.app.open_home_page()
-        wd.find_element_by_xpath("//form[@name='MainForm']/table[@id='maintable']//img[@title='Edit']").click()
+        wd.find_elements_by_xpath("//form[@name='MainForm']/table[@id='maintable']//img[@title='Edit']")[index].click()
         self.fill_address_form(add_address)
         wd.find_element_by_xpath("//div[@id='content']//input[@value='Update']").click()
         self.return_to_home_page()
