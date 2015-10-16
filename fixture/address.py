@@ -16,6 +16,7 @@ class AddressHelper:
         # submit address creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.return_to_home_page()
+        self.address_cache = None
 
     def fill_address_form(self, address):
         wd = self.app.wd
@@ -43,10 +44,10 @@ class AddressHelper:
         wd = self.app.wd
         self.app.open_home_page()
         self.select_first_address()
-        #delete address
         wd.find_element_by_css_selector("form[name='MainForm'] input[value='Delete']").click()
         wd.switch_to_alert().accept()
         self.return_to_home_page()
+        self.address_cache = None
 
     def select_first_address(self):
         wd = self.app.wd
@@ -60,19 +61,23 @@ class AddressHelper:
         self.fill_address_form(add_address)
         wd.find_element_by_xpath("//div[@id='content']//input[@value='Update']").click()
         self.return_to_home_page()
+        self.address_cache = None
 
     def count(self):
         wd = self.app.wd
         self.app.open_home_page()
         return len(wd.find_elements_by_name("selected[]"))
 
+    address_cache = None
+
     def get_address_list(self):
-        wd = self.app.wd
-        self.app.open_home_page()
-        address = []
-        for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
-            firstname = element.find_element_by_xpath("./td[3]").text
-            lastname = element.find_element_by_xpath("./td[2]").text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            address.append(add_address(firstname=firstname, lastname=lastname, id=id))
-        return address
+        if self.address_cache is None:
+            wd = self.app.wd
+            self.app.open_home_page()
+            self.address_cache = []
+            for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
+                firstname = element.find_element_by_xpath("./td[3]").text
+                lastname = element.find_element_by_xpath("./td[2]").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.address_cache.append(add_address(firstname=firstname, lastname=lastname, id=id))
+        return list(self.address_cache)
