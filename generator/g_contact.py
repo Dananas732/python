@@ -14,7 +14,7 @@ except getopt.GetoptError as err:
     sys.exit(2)
 
 n = 5
-f = "data/contact.json"
+f = "data/contacts.json"
 
 for o, a in opts:
     if o == "-n":
@@ -29,10 +29,10 @@ def random_string(prefix, maxien):
 
 
 testdata = [add_address(firstname="", middlename="", lastname="", address="", homephone="", mobilephone="", workphone="", secondaryphone="", email="", email2="", email3="")] + [
-    add_address(firstname=random_string("name", 10), middlename=random_string("header", 20), lastname=random_string("footer", 20),
-                address=random_string("name", 10), homephone=random_string("header", 20), mobilephone=random_string("footer", 20),
-                workphone=random_string("name", 10), secondaryphone=random_string("header", 20), email=random_string("footer", 20),
-                email2=random_string("name", 10), email3=random_string("header", 20))
+    add_address(firstname=random_string("firstname", 10), middlename=random_string("middlename", 20), lastname=random_string("lastname", 20),
+                address=random_string("address", 10), homephone=random_string("homephone", 20), mobilephone=random_string("mobilephone", 20),
+                workphone=random_string("workphone", 10), secondaryphone=random_string("secondaryphone", 20), email=random_string("email", 20),
+                email2=random_string("email2", 10), email3=random_string("email3", 20))
     for i in range(n)
 ]
 

@@ -2,10 +2,10 @@ __author__ = 'e.lyzlov'
 from sys import maxsize
 
 class add_address:
-    def __init__(self, firstname=None, middlename=None, lastname=None,
+    def __init__(self, id=None, firstname=None, middlename=None, lastname=None,
                  all_phones_from_nome_page=None, nickname=None, title=None,
                  company=None, address=None, homephone=None, mobilephone=None,
-                 workphone=None, secondaryphone=None, id=None,
+                 workphone=None, secondaryphone=None,
                  email=None, email2=None, email3=None, all_email_from_nome_page=None):
         self.firstname = firstname
         self.middlename = middlename
