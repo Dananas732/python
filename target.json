@@ -5,7 +5,7 @@
     "password": "secret"
   },
   "db": {
-    "host": "localhsot",
+    "host": "127.0.0.1",
     "name": "addressbook",
     "user": "root",
     "password": ""
