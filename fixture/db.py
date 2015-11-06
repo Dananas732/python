@@ -1,6 +1,7 @@
 __author__ = 'e.lyzlov'
 import mysql.connector
 from model.group import Group
+from model.address import add_address
 
 class DbFixture:
 
@@ -23,6 +24,19 @@ class DbFixture:
         finally:
             cursor.close()
         return list
+
+    def get_contact_list(self):
+        cursor = self.connection.cursor()
+        try:
+            list = []
+            cursor.execute("select id, firstname, lastname from addressbook where deprecated='0000-00-00 00:00:00'")
+            for row in cursor:
+                (id, firstname, lastname) = row
+                list.append(add_address(id=str(id), firstname=firstname, lastname=lastname))
+        finally:
+            cursor.close()
+        return list
+
 
     def destroy(self):
         self.connection.close()
