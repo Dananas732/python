@@ -40,7 +40,7 @@ class ORMFixture:
 
     def convert_contacts_to_model(self, contacts):
         def convert(contact):
-            return add_address(id=str(contact.id), firstname=contact.firstnamename, lastname=contact.lastnamename)
+            return add_address(id=str(contact.id), firstname=contact.firstname, lastname=contact.lastname)
         return list(map(convert, contacts))
 
     @db_session
