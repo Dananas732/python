@@ -68,15 +68,23 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
-    def modify(self, index, new_group_date):
+    def modify(self, index, new_group_data):
         wd = self.app.wd
         self.open_groups_page()
         self.select_group_by_index(index)
-        #open edit page for modify
         wd.find_element_by_name("edit").click()
-        # fill group form
+        self.fill_group_form(new_group_data)
+        wd.find_element_by_name("update").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
+
+    def modify_by_id(self, new_group_date):
+        wd = self.app.wd
+        self.open_groups_page()
+        self.select_group_by_id(new_group_date.id)
+        wd.find_element_by_name("edit").click()
         self.fill_group_form(new_group_date)
-        # submit group modify
         wd.find_element_by_name("update").click()
         self.return_to_groups_page()
         self.group_cache = None

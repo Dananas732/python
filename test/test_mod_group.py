@@ -1,34 +1,20 @@
 __author__ = 'e.lyzlov'
 from model.group import Group
-from random import randrange
+import random
 
 def check_for_group(app):
     if app.group.count() == 0:
         app.group.create(Group(name="test"))
 
-def test_modify_group_name(app):
+def test_modify_group_name(app, orm):
     check_for_group(app)
-    old_groups = app.group.get_group_list()
-    index = randrange(len(old_groups))
-    group = Group(name="popopo")
-    group.id = old_groups[index].id
-    app.group.modify(index, group)
-    assert len(old_groups) == app.group.count()
-    new_groups = app.group.get_group_list()
-    old_groups[index] = group
+    old_groups = orm.get_group_list()
+    group = random.choice(old_groups)
+    gr_obj = Group(name="popopo")
+    gr_obj.id = group.id
+    old_groups.remove(group)
+    old_groups.append(gr_obj)
+    app.group.modify_by_id(gr_obj)
+    new_groups = orm.get_group_list()
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
-
-#def test_modify_group_header(app):
-#    check_for_group(app)
-#    old_groups = app.group.get_group_list
-#    app.group.modify(Group(header="pipipi"))
-#    new_groups = app.group.get_group_list
-#    assert len(old_groups) == len(new_groups)
-
-#def test_modify_group_footer(app):
-#    check_for_group(app)
-#    old_groups = app.group.get_group_list
-#    app.group.modify(Group(footer="papapa"))
-#    new_groups = app.group.get_group_list
-#    assert len(old_groups) == len(new_groups)

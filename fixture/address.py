@@ -63,6 +63,19 @@ class AddressHelper:
         wd = self.app.wd
         wd.find_elements_by_xpath("//form[@name='MainForm']/table[@id='maintable']//input[@name='selected[]']")[index].click()
 
+    def select_address_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_id("%s" % id).click()
+
+    def delete_contact_by_id (self, id):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.select_address_by_id(id)
+        wd.find_element_by_css_selector("form[name='MainForm'] input[value='Delete']").click()
+        wd.switch_to_alert().accept()
+        self.return_to_home_page()
+        self.address_cache = None
+
     def modify(self, index, add_address):
         wd = self.app.wd
         self.app.open_home_page()
@@ -72,9 +85,24 @@ class AddressHelper:
         self.return_to_home_page()
         self.address_cache = None
 
+    def modify_by_id(self, add_address):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.open_contact_to_edit_by_id(add_address.id)
+        self.fill_address_form(add_address)
+        wd.find_element_by_xpath("//div[@id='content']//input[@value='Update']").click()
+        self.return_to_home_page()
+        self.address_cache = None
+
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_xpath("//form[@name='MainForm']/table[@id='maintable']//img[@title='Edit']")[index].click()
+
+    def open_contact_to_edit_by_id(self, id):
+        wd = self.app.wd
+        checkbox = wd.find_element_by_id("%s" % id)
+        row = checkbox.find_element_by_xpath("./../..")
+        row.find_element_by_xpath(".//img[@title='Edit']").click()
 
     def open_contact_view_page_by_index(self, index):
         wd = self.app.wd
