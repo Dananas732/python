@@ -10,7 +10,7 @@ def check_for_address(app):
                           homephone="1234567890", mobilephone='1020304050',
                           workphone='987654321', secondaryphone='6070809010'))
 
-def test_fones_from_home_page(app):
+def test_phones_from_home_page(app):
     check_for_address(app)
     old_address_list = app.address.get_address_list
     index = randrange(len(old_address_list))
