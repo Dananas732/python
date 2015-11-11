@@ -1,6 +1,6 @@
 __author__ = 'e.lyzlov'
 from model.address import add_address
-import re
+from selenium.webdriver.support.select import Select
 
 class AddressHelper:
 
@@ -11,10 +11,8 @@ class AddressHelper:
     def create(self, add_address):
         wd = self.app.wd
         self.app.open_home_page()
-        # return to new address page
         wd.find_element_by_link_text("add new").click()
         self.fill_address_form(add_address)
-        # submit address creation
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.return_to_home_page()
         self.address_cache = None
@@ -114,6 +112,18 @@ class AddressHelper:
         return len(wd.find_elements_by_name("selected[]"))
 
     address_cache = None
+
+    def add_contact_in_group(self, contact, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        self.select_address_by_id(contact.id)
+        Select(wd.find_element_by_xpath("//select[@name='to_group']")).select_by_index("%s" %group.name).click()
+        wd.find_elements_by_name('add')
+        pass
+        Select(wd.find_element_by_xpath("//select[@name='to_group']")).options
+
+
+
 
     @property
     def get_address_list(self):
