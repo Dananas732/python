@@ -117,11 +117,15 @@ class AddressHelper:
         wd = self.app.wd
         self.app.open_home_page()
         self.select_address_by_id(contact.id)
-        Select(wd.find_element_by_xpath("//select[@name='to_group']")).select_by_index("%s" %group.name).click()
-        wd.find_elements_by_name('add')
-        pass
-        Select(wd.find_element_by_xpath("//select[@name='to_group']")).options
+        Select(wd.find_element_by_xpath("//select[@name='to_group']")).select_by_visible_text("%s" %group.name)
+        wd.find_element_by_xpath("//input[@name='add']").click()
 
+    def del_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        Select(wd.find_element_by_xpath("//select[@name='group']")).select_by_visible_text("%s" %group.name)
+        self.select_address_by_id(contact.id)
+        wd.find_element_by_xpath("//input[@name='remove']").click()
 
 
 

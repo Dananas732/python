@@ -16,31 +16,35 @@ def check_for_group(app):
         app.group.create(Group(name="test"))
 
 
-def test_add_contact_in_group(app, orm):
+def test_del_contact_from_group(app, orm):
     check_for_address(app)
     check_for_group(app)
-    contact_list = orm.get_contact_list()
     group_list = orm.get_group_list()
     group = random.choice(group_list)
+    if len(orm.get_contacts_in_group(group)) == 0:
+        con_list = orm.get_contact_list()
+        con = random.choice(con_list)
+        app.address.add_contact_in_group(con, group)
     contact_in_group_old = orm.get_contacts_in_group(group)
-    contact = random.choice(contact_list)
-    app.address.add_contact_in_group(contact, group)
+    contact = random.choice(contact_in_group_old)
+    app.address.del_contact_from_group(contact, group)
     contact_in_group_new = orm.get_contacts_in_group(group)
-    contact_in_group_old.append(contact)
+    contact_in_group_old.remove(contact)
     assert sorted(contact_in_group_old, key=add_address.id_or_max) == sorted(contact_in_group_new, key=add_address.id_or_max)
 
-
-
-# """
-#1. Проверить наличие контактов и групп.
-#2.1. Создать список групп
-#2.2 Создать список контактов
-#3. Выбрать рандомом группу из этого списка.
-#4. Проверить наличие контактов в этой группе.
-#5. Добавить контак в группу:
-#5.1 Выбрать рандомом контакт из списка.
-#5.2. Найти выбранную группу на шаге 3
-#5.3 Добавить контакт в группу.
-#6. Проверить наличие контаков в группе.
-#7.
-#"""
+# Проверить наличие контактов
+# Проверить наличие групп
+# Создать список групп
+# Выбрать рандомом группу
+# Проверить наличие контактов по этой группе
+# Если список контактов пуст,
+#   то создать список контактов
+#   выбрать рандомный контакт
+#   запустить сценарий по добавлению этого контакта в группу
+# Вернуть список контактов в этой группе
+# Выбрать рандомом контакт в этой группе
+# Запустить сценарий удаления контакта из группы
+# Проверить наличие контактов в группе
+#
+#
+#
